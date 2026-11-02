@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: my-app-np
+
+  template:
+    metadata:
+      labels:
+        app: my-app-np
+
+    spec:
+      containers:
+        - name: my-app-np
+          image: nginx
+          ports:
+            - containerPort: 80
+---
+##service
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+
+spec:
+  type: LoadBalancer
+
+  selector:
+    app: my-app-np
+
+  ports:
+    - port: 80
+      targetPort: 80
